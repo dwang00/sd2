@@ -3,8 +3,6 @@ var ctx = c.getContext("2d");
 var r = 1;
 var diff = 1;
 var a = 0;
-var logo = new Image();
-logo.src = "logo_dvd.jpg";
 
 var startbut = document.getElementById("start");
 startbut.addEventListener('click', draw);
@@ -35,9 +33,26 @@ function draw(timestamp) {
   ctx.fill();
 }
 
+var logo = new Image();
+logo.src = "logo_dvd.jpg";
+var w = ctx.canvas.clientWidth;
+var h = ctx.canvas.clientHeight;
+var x = Math.floor(Math.random() * (w - 90));
+var y = Math.floor(Math.random() * (h - 60));
+var dx = 1;
+var dy = 1;
+
 function dvd() {
+  window.cancelAnimationFrame(a);
   ctx.clearRect(0, 0, c.width, c.height);
-  var w = ctx.canvas.clientWidth;
-  var h = ctx.canvas.clientHeight;
-  ctx.drawImage(logo, Math.floor(Math.random() * (w - 90)), Math.floor(Math.random() * (h - 60)), 90, 60);
+  if (x + 5 == 0 || x + 85 == w) {
+    dx *= -1;
+  }
+  if (y + 10 == 0 || y + 50 == h) {
+    dy *= -1;
+  }
+  x += dx;
+  y += dy;
+  ctx.drawImage(logo, x, y, 90, 60);
+  a = window.requestAnimationFrame(dvd);
 }
